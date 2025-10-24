@@ -1,18 +1,24 @@
  "use client"
-import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { db } from "@/config/firebase.config";
+import { CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { addDoc, collection } from "firebase/firestore";
 import { useFormik } from "formik";
+import { useSession } from "next-auth/react";
+import { useState } from "react";
 import * as yup from "yup";
 
 const schema = yup.object().shape({
-    customerName: yup.string().required("Full name is required").min(10),
-    serviceType: yup.string().required("service type is required").min(10),
+    customerName: yup.string().required("Full name is required").min(5),
+    serviceType: yup.string().oneOf(["Barbing-services","Catering-services","Cleaning-services","Fashion-designing","logistics-services"]).required("servicetype is required"),
     deliveryDate: yup.date().required("Date is required"),
-    amoount: yup.number().required("Amount is required"),
+    amount: yup.number().required("Amount is required").min(5000),
     status: yup.string().oneOf(["Received","In-progress","Completed"]).required("Status is required"),
-    notes: yup.string().required("Note is required").min(15),
+    notes: yup.string().required("Note is required").min(8),
 })
 
 export default function NewOrder() {
+    const [progress, setProgress] = useState(false);
+    const {data : session} = useSession();
     const {handleSubmit,handleChange,handleBlur,values,errors,touched} =useFormik({
         initialValues: {
             customerName:"",
@@ -22,8 +28,27 @@ export default function NewOrder() {
             status: "",
             notes: "",
         },
-        onSubmit:()=>{
-            alert(`your name is ${values.customerName}, you book for ${values.serviceType} and your bill is ${values.amount}`)
+        onSubmit:async(values, {resetForm})=>{
+            setProgress(true)
+            await addDoc(collection(db,"orders"),{
+                user: session?.user?.id,
+                customerName: values.customerName,
+                serviceType: values.serviceType,
+                deliveryDate: values.deliveryDate,
+                amount: values.amount,
+                status: values.status,
+                notes: values.notes,
+                timeCreated: new Date().getTime(),
+            }).then(()=>{
+                alert("Your order has been taken");
+                setProgress(false)
+                resetForm()
+            })
+            .catch(e=>{
+                console.error(e);
+                alert("Unable to submit")
+                setProgress(false)
+            })
         },
         validationSchema:schema
     })
@@ -46,19 +71,26 @@ export default function NewOrder() {
                     />
                     {touched.customerName && errors.customerName? <span className="text-red-500 text-xs">{errors.customerName}</span>: null}
                 </div>
-                <div>
-                    <TextField
-                    fullWidth
-                    size="small"
+                  <FormControl>
+                    <InputLabel id="serviceType-label">service Type</InputLabel>
+                    <Select
+                    labelId="serviceType-label"
+                    id="serviceType"
+                    name="serviceType"
                     label="Service Type"
-                    placeholder="Enter service type"
-                    type="text"
+                    size="small"
                     value={values.serviceType}
                     onChange={handleChange}
-                    onBlur={handleBlur}
-                    id="serviceType"/>
+                    onBlur={handleBlur}>
+                        <MenuItem value="Barbing-services">Barbing services</MenuItem>
+                        <MenuItem value="Catering-services">Catering services</MenuItem>
+                        <MenuItem value="Cleaning-services">Cleaning services</MenuItem>
+                        <MenuItem value="Fashion-designing">Fashion designing</MenuItem>
+                        <MenuItem value="Logistics-services">Logistics services</MenuItem>
+                        <MenuItem>Logistics Services</MenuItem>
+                    </Select>
                     {touched.serviceType && errors.serviceType? <span className="text-red-500 text-xs">{errors.serviceType}</span>: null}
-                </div>
+                  </FormControl>
                 <div>
                     <TextField
                     fullWidth
@@ -99,7 +131,7 @@ export default function NewOrder() {
                             <MenuItem value="Received">Received</MenuItem>
                             <MenuItem value="In-progress">In progress</MenuItem>
                             <MenuItem value="Completed">Completed</MenuItem>
-                            
+
                         </Select>
                         {touched.status && errors.status? <span className="text-red-500 text-xs">{errors.status}</span>: null}
                     </FormControl>
@@ -117,9 +149,11 @@ export default function NewOrder() {
                         id="notes"/>
                         {touched.notes && errors.notes? <span className="text-red-500 text-xs">{errors.notes}</span>: null}
                     </div>
-                    <button type="submit" className="h-[40px] w-full rounded-md shadow-md bg-blue-500 text-white text-xl cursor-pointer">Submit</button>
-                
+                    <button type="submit" className="h-[40px] w-full flex justify-center items-center gap-8 rounded-md shadow-md bg-blue-500 text-white text-xl cursor-pointer">Submit
+                        {!progress ? <CircularProgress color="inherit" size="30px" /> : null}
+                    </button>
             </form>
+
         </main>
     )
 }
