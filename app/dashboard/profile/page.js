@@ -1,7 +1,10 @@
-import Image from "next/image"
-import { Button } from "@mui/material"
+import Image from "next/image";
+import { Button } from "@mui/material";
+import { auth } from "@/auth";
 
-export default function Profile () {
+export default async function Profile () {
+    const session = await auth();
+    console.log(session);
     return (
         <main className="min-h-screen flex justify-center py-4 md:py-23 md:px-12 lg:py-15 lg:px-16">
             <div className="w-full md:w-[360px] flex flex-col gap-4 shadow-lg rounded-md ">
@@ -14,9 +17,9 @@ export default function Profile () {
                     className="w-[80px] h-[80px] rounded-full"
                     />
                 </div>
-                <p className="text-center py-3 border-b border-gray-600">User Name</p>
-                <p className="text-center py-3 border-b border-gray-600">User Email</p>
-                <p className="text-center py-3 border-b border-gray-600">User ID</p>
+                <p className="text-center py-3 border-b border-gray-600">{session?.user?.name.toLocaleUpperCase()}</p>
+                <p className="text-center py-3 border-b border-gray-600">{session?.user?.email}</p>
+                <p className="text-center py-3 border-b border-gray-600">User ID: {session?.user?.id}</p>
                 <form>
                     <Button variant="contained" className="w-full" color="error">Log Out</Button>
                 </form>

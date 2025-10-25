@@ -1,6 +1,6 @@
  "use client"
 import { db } from "@/config/firebase.config";
-import { CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button, CircularProgress, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { addDoc, collection } from "firebase/firestore";
 import { useFormik } from "formik";
 import { useSession } from "next-auth/react";
@@ -18,7 +18,12 @@ const schema = yup.object().shape({
 
 export default function NewOrder() {
     const [progress, setProgress] = useState(false);
+    const [open, setOpen] = useState();
     const {data : session} = useSession();
+
+    const handleClose =()=>{
+        setOpen(false)
+    }
     const {handleSubmit,handleChange,handleBlur,values,errors,touched} =useFormik({
         initialValues: {
             customerName:"",
@@ -40,13 +45,14 @@ export default function NewOrder() {
                 notes: values.notes,
                 timeCreated: new Date().getTime(),
             }).then(()=>{
-                alert("Your order has been taken");
+                setOpen(true)
                 setProgress(false)
                 resetForm()
             })
             .catch(e=>{
                 console.error(e);
                 alert("Unable to submit")
+                setOpen(false)
                 setProgress(false)
             })
         },
@@ -81,13 +87,12 @@ export default function NewOrder() {
                     size="small"
                     value={values.serviceType}
                     onChange={handleChange}
-                    onBlur={handleBlur}>
+                    onBlur={handleBlur} >
                         <MenuItem value="Barbing-services">Barbing services</MenuItem>
                         <MenuItem value="Catering-services">Catering services</MenuItem>
                         <MenuItem value="Cleaning-services">Cleaning services</MenuItem>
                         <MenuItem value="Fashion-designing">Fashion designing</MenuItem>
                         <MenuItem value="Logistics-services">Logistics services</MenuItem>
-                        <MenuItem>Logistics Services</MenuItem>
                     </Select>
                     {touched.serviceType && errors.serviceType? <span className="text-red-500 text-xs">{errors.serviceType}</span>: null}
                   </FormControl>
@@ -150,9 +155,21 @@ export default function NewOrder() {
                         {touched.notes && errors.notes? <span className="text-red-500 text-xs">{errors.notes}</span>: null}
                     </div>
                     <button type="submit" className="h-[40px] w-full flex justify-center items-center gap-8 rounded-md shadow-md bg-blue-500 text-white text-xl cursor-pointer">Submit
-                        {!progress ? <CircularProgress color="inherit" size="30px" /> : null}
+                        {progress ? <CircularProgress color="inherit" size="30px" /> : null}
                     </button>
             </form>
+            {/* success Dialog  */}
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Success</DialogTitle>
+                <DialogContent>
+                    <Typography>Order Placed Successfully</Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary" variant="contained" autoFocus>
+                        Close
+                    </Button>
+                </DialogActions>
+            </Dialog>
 
         </main>
     )
