@@ -18,6 +18,7 @@ export function Navbar () {
                     <Link href="/"><li>Home</li></Link>
                     <Link href="/dashboard/new-order"><li>New-Order</li></Link>
                     <Link href="/dashboard/order-list"><li>OrderList</li></Link>
+                    <Link href="/dashboard/order-summary"><li>summary</li></Link>
                 </ul>
                 <div className="hidden md:flex gap-3">
                     <Link href="/auth/login">  <button className="w-[60px] h-[30px] text-white bg-blue-500 rounded cursor-pointer">Login</button></Link>
@@ -30,9 +31,11 @@ export function Navbar () {
             {menuOpen &&(
             <div className="px-5 pb-1 flex flex-col gap-2 md:hidden">
                 <ul>
-                    <li>Home</li>
-                    <li>Order</li>
-                    <li>OrderList</li>
+                    <Link href="/"><li>Home</li></Link>
+                    <Link href="/dashboard/new-order"><li>New-Order</li></Link>
+                    <Link href="/dashboard/order-list"><li>OrderList</li></Link>
+                    <Link href="/dashboard/order-summary"><li>Summary</li></Link>
+                    
                 </ul>
                 <Link href="/auth/login">    <button className="w-[60px] h-[30px] text-white bg-blue-500 rounded cursor-pointer">Login</button></Link>
                 <Link href="/dashboard/profile"><CgProfile className="text-2xl cursor-pointer" /></Link>

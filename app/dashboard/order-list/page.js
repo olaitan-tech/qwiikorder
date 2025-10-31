@@ -53,8 +53,8 @@ export default function OrderList () {
                 <Table>
                     <TableHead sx={{backgroundColor: "gray"}}>
                         <TableRow>
-                            <TableCell sx={{color: "white"}}>customer Name</TableCell>
-                            <TableCell sx={{color: "white"}}>serviceType</TableCell>
+                            <TableCell sx={{color: "white"}}>Customer Name</TableCell>
+                            <TableCell sx={{color: "white"}}>ServiceType</TableCell>
                             <TableCell sx={{color: "white"}}>Delivery Date</TableCell>
                             <TableCell sx={{color: "white"}}>Amount (₦)</TableCell>
                             <TableCell sx={{color: "white"}}>Status</TableCell>
@@ -67,7 +67,7 @@ export default function OrderList () {
                         <TableRow key={order.id} sx={{borderBottom: "gray"}}>
                             <TableCell>{order.data.customerName}</TableCell>
                             <TableCell>{order.data.serviceType}</TableCell>
-                            <TableCell>{order.data.DeliveryDate}</TableCell>
+                            <TableCell>{order.data.deliveryDate}</TableCell>
                             <TableCell>{order.data.amount}</TableCell>
                             <TableCell>{order.data.status}</TableCell>
                             <TableCell>{order.data.notes}</TableCell>
