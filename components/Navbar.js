@@ -31,10 +31,10 @@ export function Navbar () {
             {menuOpen &&(
             <div className="px-5 pb-1 flex flex-col gap-2 md:hidden">
                 <ul>
-                    <Link href="/"><li>Home</li></Link>
-                    <Link href="/dashboard/new-order"><li>New-Order</li></Link>
-                    <Link href="/dashboard/order-list"><li>OrderList</li></Link>
-                    <Link href="/dashboard/order-summary"><li>Summary</li></Link>
+                    <Link href="/" className="flex justify-center"><li>Home</li></Link>
+                    <Link href="/dashboard/new-order" className="flex justify-center"><li>New-Order</li></Link>
+                    <Link href="/dashboard/order-list" className="flex justify-center"><li>OrderList</li></Link>
+                    <Link href="/dashboard/order-summary" className="flex justify-center"><li>Summary</li></Link>
                     
                 </ul>
                 <Link href="/auth/login">    <button className="w-[60px] h-[30px] text-white bg-blue-500 rounded cursor-pointer">Login</button></Link>

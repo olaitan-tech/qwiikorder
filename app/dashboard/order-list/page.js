@@ -3,7 +3,7 @@ import { db } from "@/config/firebase.config";
 import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { LuView } from "react-icons/lu";
 
 export default function OrderList () {
