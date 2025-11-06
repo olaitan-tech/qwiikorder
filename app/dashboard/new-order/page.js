@@ -9,7 +9,7 @@ import * as yup from "yup";
 
 const schema = yup.object().shape({
     customerName: yup.string().required("Full name is required").min(5),
-    serviceType: yup.string().oneOf(["Barbing-services","Catering-services","Cleaning-services","Fashion-designing","logistics-services"]).required("servicetype is required"),
+    serviceType: yup.string().oneOf(["Barbing-services","Catering-services","Cleaning-services","Fashion-designing","Logistics-services"]).required("servicetype is required"),
     deliveryDate: yup.date().required("Date is required"),
     amount: yup.number().required("Amount is required").min(5000),
     status: yup.string().oneOf(["Received","In-progress","Completed"]).required("Status is required"),
@@ -18,7 +18,7 @@ const schema = yup.object().shape({
 
 export default function NewOrder() {
     const [progress, setProgress] = useState(false);
-    const [open, setOpen] = useState();
+    const [open, setOpen] = useState(false);
     const {data : session} = useSession();
 
     const handleClose =()=>{

@@ -35,9 +35,8 @@ export function Navbar () {
                     <Link href="/dashboard/new-order" className="flex justify-center"><li>New-Order</li></Link>
                     <Link href="/dashboard/order-list" className="flex justify-center"><li>OrderList</li></Link>
                     <Link href="/dashboard/order-summary" className="flex justify-center"><li>Summary</li></Link>
-                    
                 </ul>
-                <Link href="/auth/login">    <button className="w-[60px] h-[30px] text-white bg-blue-500 rounded cursor-pointer">Login</button></Link>
+                <Link href="/auth/login" className="flex justify-center">   <button className="w-[60px] h-[30px] text-white bg-blue-500 rounded cursor-pointer">Login</button></Link>
                 <Link href="/dashboard/profile"><CgProfile className="text-2xl cursor-pointer" /></Link>
             </div>
             )}

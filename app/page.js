@@ -1,6 +1,13 @@
+import { auth } from "@/auth";
 import Image from "next/image";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home() {
+    const session = await auth();
+     if(!session) {
+       redirect("/auth/login")
+     }
   return (
     <main className="min-h-screen">
       {/* <h1 className="text-4xl font-bold text-blue-500 py-5 text-center">Welcome to QWIIKORDER</h1> */}
@@ -19,7 +26,7 @@ export default function Home() {
             alt="Place Orders" 
             width={40} 
             height={40} />
-            <h3 className="font-semibold text-lg mt-4">Place Orders</h3>
+            <Link href="/dashboard/new-order"><h3 className="font-semibold text-lg mt-4">Place Orders</h3></Link>
             <p className="text-xs text-gray-500 mt-2">Order products with just a few clicks.</p>
           </div>
 
@@ -29,7 +36,7 @@ export default function Home() {
             alt="Track Delivery" 
             width={40} 
             height={40} />
-            <h3 className="font-semibold text-lg mt-4">Track Delivery</h3>
+            <Link href="/dashboard/order-list/id"><h3 className="font-semibold text-lg mt-4">Track Delivery</h3></Link>
             <p className="text-xs text-gray-500 mt-2">Monitor your orders in real time.</p>  
           </div>
 
@@ -39,7 +46,7 @@ export default function Home() {
             alt="Order History" 
             width={40} 
             height={40} />
-            <h3 className="font-semibold text-lg mt-4">Order History</h3>
+            <Link href="/dashboard/order-list"><h3 className="font-semibold text-lg mt-4">Order History</h3></Link>
             <p className="text-xs text-gray-500 mt-2">Easily access past orders anytime.</p> 
           </div>
 
