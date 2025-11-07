@@ -1,11 +1,15 @@
 import { auth, signIn } from "@/auth";
-import { TextField } from "@mui/material"
+import { TextField } from "@mui/material";
+import { redirect } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 
+
 export default  async function Login () {
     const session = await auth()
-    console.log(session)
+    if (session?.user) {
+        redirect("/dashboard/new-order");
+    };
     return (
         <main className="min-h-screen flex justify-center px-2 md:px-12 md:py-6 lg:py-12 lg:px-16">
             <div className="w-full md:w-[350px] max-h-[450px] flex flex-col gap-4 rounded md:shadow-md md:px-3 md:py-4">

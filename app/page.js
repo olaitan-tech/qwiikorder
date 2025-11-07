@@ -5,14 +5,11 @@ import { redirect } from "next/navigation";
 
 export default async function Home() {
     const session = await auth();
-     if(!session) {
-       redirect("/auth/login")
-     }
   return (
     <main className="min-h-screen">
       {/* <h1 className="text-4xl font-bold text-blue-500 py-5 text-center">Welcome to QWIIKORDER</h1> */}
       <div className="text-center py-10">
-        <h1 className="text-3xl fon t-bold text-gray-800">Track your orders effortlessly</h1>
+        <h1 className="text-3xl font-bold text-gray-800">Track your orders effortlessly</h1>
         <p className="text-sm text-gray-600 mt-3">Place orders, monitor delivery in real time, <br />and access your order history all in one app.</p>
         <button className="mt-6 bg-blue-500 px-6 py-2 rounded-md text-white font-semibold shadow-md hover">START TRACKING</button>
       </div>
