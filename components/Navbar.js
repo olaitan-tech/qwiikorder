@@ -37,7 +37,7 @@ export function Navbar () {
                     <Link href="/dashboard/order-summary" className="flex justify-center"><li>Summary</li></Link>
                 </ul>
                 <Link href="/auth/login" className="flex justify-center">   <button className="w-[60px] h-[30px] text-white bg-blue-500 rounded cursor-pointer">Login</button></Link>
-                <Link href="/dashboard/profile"><CgProfile className="text-2xl cursor-pointer" /></Link>
+                <Link href="/dashboard/profile" className="flex justify-center"><CgProfile className="text-2xl cursor-pointer" /></Link>
             </div>
             )}
         </main>
